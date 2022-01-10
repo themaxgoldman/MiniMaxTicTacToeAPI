@@ -1,4 +1,5 @@
 import tic_tac_toe_model
+from flask import abort
 
 def mark_to_int(mark):
     mark_lower = mark.lower()
@@ -26,5 +27,7 @@ def model_from_request(request):
             spot = request.form.get(f'{x}-{y}', None)
             if spot is not None:
                 moves.append(((x,y),mark_to_int(spot)))
-    model.make_moves(moves)
+    model.make_moves_on_empty_board(moves)
+    if(player != model.current_player):
+        abort(400)
     return model
