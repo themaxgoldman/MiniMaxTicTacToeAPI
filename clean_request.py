@@ -33,4 +33,6 @@ def model_from_request(request):
         abort(Response("Invalid board state", 400))
     if(player != model.current_player):
         abort(Response(f"{int_to_mark(player)} is not the current player on given board", 400))
+    if(model.filled()):
+        abort(Response("Board is filled", 400))
     return model
