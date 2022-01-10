@@ -1,5 +1,6 @@
 from enum import Enum
 import copy
+import itertools
 
 
 def player_mark(player):
@@ -148,7 +149,7 @@ class TicTacToeModel:
             self.winner = player
         return is_winning_state
 
-    def make_move(self, move, player):
+    def make_move(self, spot, player):
         """ Makes the given move on the board
 
         Args:
@@ -162,27 +163,41 @@ class TicTacToeModel:
             ValueError: incorrect player
             ValueError: invalid move, spot taken
         """
-        if move[0] >= self.board_size or move[0] < 0:
+
+        if spot[0] >= self.board_size or spot[0] < 0:
             raise ValueError(
                 "x: {x} out of range: {range}".format(
-                    x=move[0],
+                    x=spot[0],
                     range=(self.board_size - 1)))
-        if move[1] >= self.board_size or move[1] < 0:
+        if spot[1] >= self.board_size or spot[1] < 0:
             raise ValueError(
-                "y: {y} out of range: {range}".format(y=move[1],
+                "y: {y} out of range: {range}".format(y=spot[1],
                                                       range=(
                                                           self.board_size-1)))
         if player < 0 or player > 1:
             raise ValueError("invalid player")
         if self.current_player != player:
             raise ValueError("player is not current player")
-        if self.board[move[0]][move[1]] is not None:
+        if self.board[spot[0]][spot[1]] is not None:
             raise ValueError("invalid move, spot already taken")
-        self.board[move[0]][move[1]] = player
+        self.board[spot[0]][spot[1]] = player
         self.current_player = (self.current_player + 1) % 2
         self.num_moves += 1
-        self.remaining_moves.remove(move)
-        self.moves.append(move)
+        self.remaining_moves.remove(spot)
+        self.moves.append(spot)
+
+    def make_moves(self, moves):
+        player_0_moves = [(move,player) for move,player in moves if player == 0]
+        player_1_moves = [(move,player) for move,player in moves if player == 1]
+        if(abs(len(player_0_moves) - len (player_1_moves)) > 1):
+            raise ValueError("Difference between number of moves for each player should be 1 or 0")
+        lists = [player_1_moves, player_0_moves] if len(player_1_moves) > len(player_0_moves) else [player_0_moves, player_1_moves]
+        moves = [None]*(len(lists[0])+len(lists[1]))
+        moves[::2] = lists[0]
+        moves[1::2] = lists[1]
+        for spot,player in moves:
+            self.make_move(spot,player)
+
 
     def undo_move(self):
         """ Undo the last move
