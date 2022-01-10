@@ -1,5 +1,5 @@
 import tic_tac_toe_model
-from flask import abort
+from flask import abort, Response
 
 def mark_to_int(mark):
     mark_lower = mark.lower()
@@ -18,7 +18,7 @@ def int_to_mark(i):
 
 def model_from_request(request):
     if 'player' not in request.form:
-        abort(400)
+        abort(Response("missing current player", 400))
     player = mark_to_int(request.form.get('player'))
     model = tic_tac_toe_model.TicTacToeModel()
     moves = []
@@ -27,7 +27,10 @@ def model_from_request(request):
             spot = request.form.get(f'{x}-{y}', None)
             if spot is not None:
                 moves.append(((x,y),mark_to_int(spot)))
-    model.make_moves_on_empty_board(moves)
+    try:
+        model.make_moves_on_empty_board(moves)
+    except ValueError as e:
+        abort(Response("Invalid board state", 400))
     if(player != model.current_player):
-        abort(400)
+        abort(Response(f"{int_to_mark(player)} is not the current player on given board", 400))
     return model
