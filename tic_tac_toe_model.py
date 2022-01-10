@@ -186,7 +186,9 @@ class TicTacToeModel:
         self.remaining_moves.remove(spot)
         self.moves.append(spot)
 
-    def make_moves(self, moves):
+    def make_moves_on_empty_board(self, moves):
+        if not self.num_moves == 0:
+            raise ValueError("moves have been made")
         player_0_moves = [(move,player) for move,player in moves if player == 0]
         player_1_moves = [(move,player) for move,player in moves if player == 1]
         if(abs(len(player_0_moves) - len (player_1_moves)) > 1):
@@ -195,6 +197,8 @@ class TicTacToeModel:
         moves = [None]*(len(lists[0])+len(lists[1]))
         moves[::2] = lists[0]
         moves[1::2] = lists[1]
+        if(len(player_1_moves) > len(player_0_moves)):
+            self.current_player = 1
         for spot,player in moves:
             self.make_move(spot,player)
 

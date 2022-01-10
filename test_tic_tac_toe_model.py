@@ -14,7 +14,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
         mid_game_board_moves.append(((0, 2), 0))
         mid_game_board_moves.append(((2, 1), 1))
         mid_game_board_moves.append(((1, 1), 0))
-        self.mid_game_board.make_moves(mid_game_board_moves)
+        self.mid_game_board.make_moves_on_empty_board(mid_game_board_moves)
 
     def test_default_size(self):
         self.assertEqual(self.empty_board.board_size, 3)
@@ -156,7 +156,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_column_0(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((1,1),0), ((0,0),1), ((0,2),0), ((1,0),1), ((1,2),0), ((2,0),1), ((2,1),0), ((2,2),1)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 0)))
         self.assertTrue(winning_board.check_winner((1, 0)))
         self.assertTrue(winning_board.check_winner((2, 0)))
@@ -164,7 +164,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_column_1(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((1,1),0), ((0,0),1), ((0,1),0), ((0,2),1), ((2,1),0)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 1)))
         self.assertTrue(winning_board.check_winner((1, 1)))
         self.assertTrue(winning_board.check_winner((2, 1)))
@@ -172,7 +172,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_column_2(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((0,0),0), ((0,2),1), ((0,1),0), ((1,2),1), ((1,1),0), ((2,2),1)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 2)))
         self.assertTrue(winning_board.check_winner((1, 2)))
         self.assertTrue(winning_board.check_winner((2, 2)))
@@ -180,7 +180,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_row_0(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((0,0),0), ((2,0),1), ((0,1),0), ((1,1),1), ((0,2),0), ((1,2),1), ((2,2),0)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 0)))
         self.assertTrue(winning_board.check_winner((0, 1)))
         self.assertTrue(winning_board.check_winner((0, 2)))
@@ -188,7 +188,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_row_1(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((0,0),0), ((1,0),1), ((2,1),0), ((1,1),1), ((0,2),0), ((2,0),1), ((2,2),0), ((1,2),1)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((1, 0)))
         self.assertTrue(winning_board.check_winner((1, 1)))
         self.assertTrue(winning_board.check_winner((1, 2)))
@@ -196,7 +196,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_row_2(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((2,0),0), ((1,0),1), ((2,1),0), ((1,1),1), ((2,2),0)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((2, 0)))
         self.assertTrue(winning_board.check_winner((2, 1)))
         self.assertTrue(winning_board.check_winner((2, 2)))
@@ -204,7 +204,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_left_right_diag(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((1,0),0), ((0,0),1), ((2,0),0), ((1,1),1), ((2,1),0), ((2,2),1)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 0)))
         self.assertTrue(winning_board.check_winner((1, 1)))
         self.assertTrue(winning_board.check_winner((2, 2)))
@@ -212,7 +212,7 @@ class TicTacToeModelTestCases(unittest.TestCase):
     def test_check_winner_right_left_diag(self):
         winning_board = TicTacToeModel()
         moves_to_make = [((0,0),0), ((1,0),1), ((2,0),0), ((1,2),1), ((1,1),0), ((2,2),1), ((0,2),0)]
-        winning_board.make_moves(moves_to_make)
+        winning_board.make_moves_on_empty_board(moves_to_make)
         self.assertTrue(winning_board.check_winner((0, 2)))
         self.assertTrue(winning_board.check_winner((1, 1)))
         self.assertTrue(winning_board.check_winner((2, 0)))
