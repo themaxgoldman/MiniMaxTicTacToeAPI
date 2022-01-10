@@ -18,13 +18,14 @@ def get_next_move(player, model):
     """
     if model.board_size >= 5 and len(model) < model.board_size * 2 - 3:
         return random.choice(list(model.remaining_moves))
-    highest_score = -2
+    highest_score = -1000
     highest_move = None
     moves = model.remaining_moves.copy()
     for move_option in moves:
         model.make_move(move_option, player)
         model.check_winner(move_option)
         option_score = minimax(model, player, False, alpha=-2, beta=2)
+        print(option_score)
         model.undo_move()
         if option_score > highest_score:
             highest_score = option_score
